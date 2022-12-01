@@ -20,7 +20,7 @@ def process_args():
     
     for arg in sys.argv:
         if arg_num != 0:
-            if ".mp4" in arg:
+            if ".y4m" in arg:
                 videos.append(arg)
             else:
                 break
@@ -45,16 +45,16 @@ def encode(videos, args):
         in_filename = in_filename[0]
         dir_name = in_filename.split('.')[0]
         filetype = in_filename.split('.')[1]
-        out_filename = dir_name + "-out." + in_filename.split('.')[1]
+        out_filename = dir_name + "-out." + "mp4"
         full_dir = dir + "\\" + dir_name + "-out"
         full_dir_out_file = full_dir + "\\" + out_filename
         try:
-            os.mkdir(full_dir)
+            os.mkdir(full_dir) 
         except OSError as exc:
             raise
 
         inputs = inputs + ["-i", video]
-        outputs = outputs + ["-map", str(count), "-f", filetype, full_dir_out_file]
+        outputs = outputs + args + ["-map", str(count), "-f", "mp4", full_dir_out_file]
     
     p = Popen(["ffmpeg", "-readrate", "1"] + inputs + args + outputs, stdout=subprocess.PIPE)
     p.communicate()
