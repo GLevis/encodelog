@@ -67,7 +67,7 @@ def calculate_vmaf(videos):
         in_filename.reverse()
         in_filename = in_filename[0]
         dir_name = in_filename.split('.')[0]
-        out_filename = dir_name + "-out." + in_filename.split('.')[1]
+        out_filename = dir_name + "-out." + "mp4"
         full_dir = dir + "\\" + dir_name + "-out"
 
         p = Popen(
