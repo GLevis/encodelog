@@ -55,6 +55,7 @@ def encode(videos, args):
 
         inputs = inputs + ["-i", video]
         outputs = outputs + args + ["-map", str(count), "-f", "mp4", full_dir_out_file]
+        count = count + 1
     
     p = Popen(["ffmpeg", "-readrate", "1"] + inputs + args + outputs, stdout=subprocess.PIPE)
     p.communicate()
