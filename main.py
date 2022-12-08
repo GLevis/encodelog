@@ -46,7 +46,7 @@ def encode(videos, args):
         dir_name = in_filename.split('.')[0]
         filetype = in_filename.split('.')[1]
         out_filename = dir_name + "-out." + "mp4"
-        full_dir = dir + "\\" + dir_name + "-out"
+        full_dir = dir + "\\" + str(count) + "-out"
         full_dir_out_file = full_dir + "\\" + out_filename
         try:
             os.mkdir(full_dir) 
@@ -63,13 +63,14 @@ def encode(videos, args):
     hardware_logger.terminate()
 
 def calculate_vmaf(videos):
+    count = 0
     for video in videos:
         in_filename = video.split('\\')
         in_filename.reverse()
         in_filename = in_filename[0]
         dir_name = in_filename.split('.')[0]
         out_filename = dir_name + "-out." + "mp4"
-        full_dir = dir + "\\" + dir_name + "-out"
+        full_dir = dir + "\\" + str(count) + "-out"
 
         p = Popen(
         [
@@ -93,6 +94,8 @@ def calculate_vmaf(videos):
             shutil.move("output.xml", full_dir + "\\" + "output.xml")
         except shutil.Error:        
             raise
+        
+        count += 1
 
 def get_video_frame_rate(filename):
     result = Popen(
@@ -120,14 +123,14 @@ def get_video_frame_rate(filename):
 
 def parseXML(videos):
     vmaf_scores = []
-
+    count = 0
     for video in videos:
         in_filename = video.split('\\')
         in_filename.reverse()
         in_filename = in_filename[0]
         dir_name = in_filename.split('.')[0]
         out_filename = dir_name + "-out." + in_filename.split('.')[1]
-        full_dir = dir + "\\" + dir_name + "-out"
+        full_dir = dir + "\\" + str(count) + "-out"
         frames_vmaf = dict()
         fps = get_video_frame_rate(sys.argv[1])
 
@@ -145,6 +148,8 @@ def parseXML(videos):
             frames_vmaf[int(frame_num) / fps] = float(vmaf_score)
 
         vmaf_scores.append(frames_vmaf)
+
+        count += 1
 
     return vmaf_scores
 
